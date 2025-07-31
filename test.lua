@@ -1,30 +1,23 @@
-local plrs = game.Players
-local plr = plrs.LocalPlayer
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/memejames/elerium-v2-ui-library/main/Library", true))()
 
--- Загрузка UI библиотеки
-local ui = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/source.lua", true))()
-
--- Создание главного окна
-local win = ui:CreateWindow({
-    Title = "Vanegood Hub",
-    Icon = "terminal",
-    Size = UDim2.fromOffset(500, 400),
-    Theme = "Dark"
+-- Создание главного окна со светло-серым цветом
+local window = library:AddWindow("Vanegood Hub", {
+    main_color = Color3.fromRGB(200, 200, 200), -- светло-серый
+    min_size = Vector2.new(500, 400),
+    can_resize = true
 })
 
--- Вкладка Main (пустая)
-local mainTab = win:Tab({
-    Title = "Main",
-    Icon = "home"
-})
+-- Основная вкладка (пустая)
+local mainTab = window:AddTab("Меню")
+mainTab:Show()
 
--- Вкладка Games (пустая)
-local gamesTab = win:Tab({
-    Title = "Games",
-    Icon = "gamepad"
-})
+-- Вкладка "Создатель"
+local noteTab = window:AddTab("Создатель")
+noteTab:AddLabel("Private Script")
+noteTab:AddLabel("")
+noteTab:AddLabel("Созданно vanegood")
 
 -- Принудительное отображение интерфейса
-if game:GetService("CoreGui"):FindFirstChild("WindUI") then
-    game:GetService("CoreGui").WindUI.Enabled = true
+if game:GetService("CoreGui"):FindFirstChild("Elerium") then
+    game:GetService("CoreGui").Elerium.Enabled = true
 end
