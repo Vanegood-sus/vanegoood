@@ -5,7 +5,7 @@ local char = plr.Character
 local ui = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
 local win = ui:CreateWindow({
-    Title = "Untitled Drill Game",
+    Title = "Vanegood Hub",
     Icon = "terminal",
     Folder = nil,
     Size = UDim2.fromOffset(580, 460),
