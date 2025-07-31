@@ -7,7 +7,7 @@ local window = library:AddWindow("Vanegood Hub", {
     can_resize = true
 })
 
--- Основная вкладка (пустая)
+-- Основная вкладка 
 local mainTab = window:AddTab("Меню")
 mainTab:Show()
 
