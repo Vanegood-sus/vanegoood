@@ -6,46 +6,48 @@ local VanegoodHub = {}
 
 -- Создание GUI
 local function createGui()
-    local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Name = "VanegoodHub"
-    ScreenGui.Parent = CoreGui
-    ScreenGui.ResetOnSpawn = false
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "VanegoodHub"
+    screenGui.Parent = CoreGui
+    screenGui.ResetOnSpawn = false
 
     -- Кнопка с изображением (draggable)
-    local TinyImageGui = Instance.new("ScreenGui")
-    TinyImageGui.Name = "TinyDraggableImage"
-    TinyImageGui.Parent = CoreGui
-    TinyImageGui.ResetOnSpawn = false
+    local tinyImageGui = Instance.new("ScreenGui")
+    tinyImageGui.Name = "TinyDraggableImage"
+    tinyImageGui.Parent = CoreGui
+    tinyImageGui.ResetOnSpawn = false
 
-    local ImageSize = 75
-    local ImageFrame = Instance.new("Frame")
-    ImageFrame.Name = "TinyRoundedImage"
-    ImageFrame.Size = UDim2.new(0, ImageSize, 0, ImageSize)
-    ImageFrame.Position = UDim2.new(0, 20, 0, 20)
-    ImageFrame.BackgroundTransparency = 1
-    ImageFrame.ClipsDescendants = true
-    ImageFrame.Parent = TinyImageGui
+    local imageSize = 75
+    local imageFrame = Instance.new("Frame")
+    imageFrame.Name = "tinyRoundedImage"
+    imageFrame.Size = UDim2.new(0, imageSize, 0, imageSize)
+    imageFrame.Position = UDim2.new(0, 20, 0, 20)
+    imageFrame.BackgroundTransparency = 1
+    imageFrame.ClipsDescendants = true
+    imageFrame.Parent = tinyImageGui
 
-    local UICorner = Instance.new("UICorner")
-    UICorner.CornerRadius = UDim.new(0.25, 0)
-    UICorner.Parent = ImageFrame
+    local uiCorner = Instance.new("UICorner")
+    uiCorner.CornerRadius = UDim.new(0.25, 0)
+    uiCorner.Parent = imageFrame
 
-    local ImageLabel = Instance.new("ImageLabel")
-    ImageLabel.Name = "Image"
-    ImageLabel.Image = "rbxassetid://111084287166716"
-    ImageLabel.Size = UDim2.new(1, 0, 1, 0)
-    ImageLabel.BackgroundTransparency = 1
-    ImageLabel.BorderSizePixel = 0
-    ImageLabel.Parent = ImageFrame
+    local imageLabel = Instance.new("ImageLabel")
+    imageLabel.Name = "image"
+    imageLabel.Image = "rbxassetid://111084287166716"
+    imageLabel.Size = UDim2.new(1, 0, 1, 0)
+    imageLabel.BackgroundTransparency = 1
+    imageLabel.BorderSizePixel = 0
+    imageLabel.Parent = imageFrame
 
-    -- Возможность перетаскивания кнопки с изображением
-    local dragging, dragStart, startPos = false, nil, nil
+    -- Dragging logic for tiny image
+    local dragging = false
+    local dragStart = nil
+    local startPos = nil
 
-    ImageFrame.InputBegan:Connect(function(input)
+    imageFrame.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             dragging = true
             dragStart = input.Position
-            startPos = ImageFrame.Position
+            startPos = imageFrame.Position
             input.Changed:Connect(function()
                 if input.UserInputState == Enum.UserInputState.End then
                     dragging = false
@@ -54,10 +56,10 @@ local function createGui()
         end
     end)
 
-    ImageFrame.InputChanged:Connect(function(input)
+    imageFrame.InputChanged:Connect(function(input)
         if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
             local delta = input.Position - dragStart
-            ImageFrame.Position = UDim2.new(
+            imageFrame.Position = UDim2.new(
                 startPos.X.Scale,
                 startPos.X.Offset + delta.X,
                 startPos.Y.Scale,
@@ -66,191 +68,192 @@ local function createGui()
         end
     end)
 
-    -- Основное окно хаба
-    local MainFrame = Instance.new("Frame")
-    MainFrame.Name = "MainFrame"
-    MainFrame.Size = UDim2.new(0, 500, 0, 350)
-    MainFrame.Position = UDim2.new(0.5, -250, 0.5, -175)
-    MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
-    MainFrame.BackgroundTransparency = 0.15
-    MainFrame.BorderSizePixel = 0
-    MainFrame.Active = true
-    MainFrame.Draggable = true
-    MainFrame.Parent = ScreenGui
+    -- Main Frame
+    local mainFrame = Instance.new("Frame")
+    mainFrame.Name = "mainFrame"
+    mainFrame.Size = UDim2.new(0, 500, 0, 350)
+    mainFrame.Position = UDim2.new(0.5, -250, 0.5, -175)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+    mainFrame.BackgroundTransparency = 0.15
+    mainFrame.BorderSizePixel = 0
+    mainFrame.Active = true
+    mainFrame.Draggable = true
+    mainFrame.Parent = screenGui
 
-    local MainUICorner = Instance.new("UICorner")
-    MainUICorner.CornerRadius = UDim.new(0, 8)
-    MainUICorner.Parent = MainFrame
+    local mainUICorner = Instance.new("UICorner")
+    mainUICorner.CornerRadius = UDim.new(0, 8)
+    mainUICorner.Parent = mainFrame
 
-    -- Оранжевая обводка
-    local Border = Instance.new("Frame")
-    Border.Size = UDim2.new(1, 2, 1, 2)
-    Border.Position = UDim2.new(0, -1, 0, -1)
-    Border.BackgroundTransparency = 1
-    Border.Parent = MainFrame
+    -- Border
+    local border = Instance.new("Frame")
+    border.Size = UDim2.new(1, 2, 1, 2)
+    border.Position = UDim2.new(0, -1, 0, -1)
+    border.BackgroundTransparency = 1
+    border.Parent = mainFrame
 
-    local BorderStroke = Instance.new("UIStroke")
-    BorderStroke.Color = Color3.fromRGB(255, 165, 50)
-    BorderStroke.Thickness = 1.5
-    BorderStroke.Transparency = 0.3
-    BorderStroke.Parent = Border
+    local borderStroke = Instance.new("UIStroke")
+    borderStroke.Color = Color3.fromRGB(255, 165, 50)
+    borderStroke.Thickness = 1.5
+    borderStroke.Transparency = 0.3
+    borderStroke.Parent = border
 
-    -- Верхняя панель
-    local TopBar = Instance.new("Frame")
-    TopBar.Name = "TopBar"
-    TopBar.Size = UDim2.new(1, 0, 0, 30)
-    TopBar.Position = UDim2.new(0, 0, 0, 0)
-    TopBar.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-    TopBar.Parent = MainFrame
+    -- Top Bar
+    local topBar = Instance.new("Frame")
+    topBar.Name = "topBar"
+    topBar.Size = UDim2.new(1, 0, 0, 30)
+    topBar.Position = UDim2.new(0, 0, 0, 0)
+    topBar.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+    topBar.Parent = mainFrame
 
-    local TopBarCorner = Instance.new("UICorner")
-    TopBarCorner.CornerRadius = UDim.new(0, 8)
-    TopBarCorner.Parent = TopBar
+    local topBarCorner = Instance.new("UICorner")
+    topBarCorner.CornerRadius = UDim.new(0, 8)
+    topBarCorner.Parent = topBar
 
-    local TitleLabel = Instance.new("TextLabel")
-    TitleLabel.Name = "Title"
-    TitleLabel.Size = UDim2.new(0, 120, 1, 0)
-    TitleLabel.Position = UDim2.new(0, 10, 0, 0)
-    TitleLabel.BackgroundTransparency = 1
-    TitleLabel.Text = "VANEGOOD HUB"
-    TitleLabel.TextColor3 = Color3.fromRGB(220, 220, 220)
-    TitleLabel.Font = Enum.Font.GothamBold
-    TitleLabel.TextSize = 14
-    TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
-    TitleLabel.Parent = TopBar
+    -- Title
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Name = "title"
+    titleLabel.Size = UDim2.new(0, 120, 1, 0)
+    titleLabel.Position = UDim2.new(0, 10, 0, 0)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Text = "VANEGOOD HUB"
+    titleLabel.TextColor3 = Color3.fromRGB(220, 220, 220)
+    titleLabel.Font = Enum.Font.GothamBold
+    titleLabel.TextSize = 14
+    titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    titleLabel.Parent = topBar
 
-    -- Кнопка закрытия
-    local CloseButton = Instance.new("TextButton")
-    CloseButton.Name = "CloseButton"
-    CloseButton.Size = UDim2.new(0, 20, 0, 20)
-    CloseButton.Position = UDim2.new(1, -25, 0.5, -10)
-    CloseButton.BackgroundColor3 = Color3.fromRGB(255, 165, 50)
-    CloseButton.Text = "X"
-    CloseButton.TextColor3 = Color3.new(1, 1, 1)
-    CloseButton.Font = Enum.Font.GothamBold
-    CloseButton.TextSize = 18
-    CloseButton.Parent = TopBar
+    -- Close Button
+    local closeButton = Instance.new("TextButton")
+    closeButton.Name = "closeButton"
+    closeButton.Size = UDim2.new(0, 20, 0, 20)
+    closeButton.Position = UDim2.new(1, -25, 0.5, -10)
+    closeButton.BackgroundColor3 = Color3.fromRGB(255, 165, 50)
+    closeButton.Text = "X"
+    closeButton.TextColor3 = Color3.new(1, 1, 1)
+    closeButton.Font = Enum.Font.GothamBold
+    closeButton.TextSize = 18
+    closeButton.Parent = topBar
 
-    -- Кнопка минимизации
-    local MinimizeButton = Instance.new("TextButton")
-    MinimizeButton.Name = "MinimizeButton"
-    MinimizeButton.Size = UDim2.new(0, 20, 0, 20)
-    MinimizeButton.Position = UDim2.new(1, -50, 0.5, -10)
-    MinimizeButton.BackgroundColor3 = Color3.fromRGB(255, 165, 50)
-    MinimizeButton.Text = "—"
-    MinimizeButton.TextColor3 = Color3.new(1, 1, 1)
-    MinimizeButton.Font = Enum.Font.GothamBold
-    MinimizeButton.TextSize = 18
-    MinimizeButton.Parent = TopBar
+    -- Minimize Button
+    local minimizeButton = Instance.new("TextButton")
+    minimizeButton.Name = "minimizeButton"
+    minimizeButton.Size = UDim2.new(0, 20, 0, 20)
+    minimizeButton.Position = UDim2.new(1, -50, 0.5, -10)
+    minimizeButton.BackgroundColor3 = Color3.fromRGB(255, 165, 50)
+    minimizeButton.Text = "—"
+    minimizeButton.TextColor3 = Color3.new(1, 1, 1)
+    minimizeButton.Font = Enum.Font.GothamBold
+    minimizeButton.TextSize = 18
+    minimizeButton.Parent = topBar
 
-    -- Вкладки
-    local TabBar = Instance.new("Frame")
-    TabBar.Name = "TabBar"
-    TabBar.Size = UDim2.new(1, 0, 0, 30)
-    TabBar.Position = UDim2.new(0, 0, 0, 30)
-    TabBar.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-    TabBar.Parent = MainFrame
+    -- Tab Bar
+    local tabBar = Instance.new("Frame")
+    tabBar.Name = "tabBar"
+    tabBar.Size = UDim2.new(1, 0, 0, 30)
+    tabBar.Position = UDim2.new(0, 0, 0, 30)
+    tabBar.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+    tabBar.Parent = mainFrame
 
-    local ScriptsTab = Instance.new("TextButton")
-    ScriptsTab.Name = "ScriptsTab"
-    ScriptsTab.Size = UDim2.new(0.33, 0, 1, 0)
-    ScriptsTab.Position = UDim2.new(0, 0, 0, 0)
-    ScriptsTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    ScriptsTab.Text = "СКРИПТЫ"
-    ScriptsTab.TextColor3 = Color3.fromRGB(220, 220, 220)
-    ScriptsTab.Font = Enum.Font.GothamBold
-    ScriptsTab.TextSize = 12
-    ScriptsTab.Parent = TabBar
+    local scriptsTab = Instance.new("TextButton")
+    scriptsTab.Name = "scriptsTab"
+    scriptsTab.Size = UDim2.new(0.33, 0, 1, 0)
+    scriptsTab.Position = UDim2.new(0, 0, 0, 0)
+    scriptsTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    scriptsTab.Text = "СКРИПТЫ"
+    scriptsTab.TextColor3 = Color3.fromRGB(220, 220, 220)
+    scriptsTab.Font = Enum.Font.GothamBold
+    scriptsTab.TextSize = 12
+    scriptsTab.Parent = tabBar
 
-    local GamesTab = Instance.new("TextButton")
-    GamesTab.Name = "GamesTab"
-    GamesTab.Size = UDim2.new(0.33, 0, 1, 0)
-    GamesTab.Position = UDim2.new(0.33, 0, 0, 0)
-    GamesTab.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-    GamesTab.Text = "ИГРЫ"
-    GamesTab.TextColor3 = Color3.fromRGB(180, 180, 180)
-    GamesTab.Font = Enum.Font.GothamBold
-    GamesTab.TextSize = 12
-    GamesTab.Parent = TabBar
+    local gamesTab = Instance.new("TextButton")
+    gamesTab.Name = "gamesTab"
+    gamesTab.Size = UDim2.new(0.33, 0, 1, 0)
+    gamesTab.Position = UDim2.new(0.33, 0, 0, 0)
+    gamesTab.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+    gamesTab.Text = "ИГРЫ"
+    gamesTab.TextColor3 = Color3.fromRGB(180, 180, 180)
+    gamesTab.Font = Enum.Font.GothamBold
+    gamesTab.TextSize = 12
+    gamesTab.Parent = tabBar
 
-    local TrollTab = Instance.new("TextButton")
-    TrollTab.Name = "TrollTab"
-    TrollTab.Size = UDim2.new(0.34, 0, 1, 0)
-    TrollTab.Position = UDim2.new(0.66, 0, 0, 0)
-    TrollTab.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-    TrollTab.Text = "ТРОЛЛИНГ"
-    TrollTab.TextColor3 = Color3.fromRGB(180, 180, 180)
-    TrollTab.Font = Enum.Font.GothamBold
-    TrollTab.TextSize = 12
-    TrollTab.Parent = TabBar
+    local trollTab = Instance.new("TextButton")
+    trollTab.Name = "trollTab"
+    trollTab.Size = UDim2.new(0.34, 0, 1, 0)
+    trollTab.Position = UDim2.new(0.66, 0, 0, 0)
+    trollTab.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+    trollTab.Text = "ТРОЛЛИНГ"
+    trollTab.TextColor3 = Color3.fromRGB(180, 180, 180)
+    trollTab.Font = Enum.Font.GothamBold
+    trollTab.TextSize = 12
+    trollTab.Parent = tabBar
 
-    local ActiveTabIndicator = Instance.new("Frame")
-    ActiveTabIndicator.Name = "ActiveTabIndicator"
-    ActiveTabIndicator.Size = UDim2.new(0.33, 0, 0, 2)
-    ActiveTabIndicator.Position = UDim2.new(0, 0, 1, -2)
-    ActiveTabIndicator.BackgroundColor3 = Color3.fromRGB(255, 165, 50)
-    ActiveTabIndicator.Parent = TabBar
+    local activeTabIndicator = Instance.new("Frame")
+    activeTabIndicator.Name = "activeTabIndicator"
+    activeTabIndicator.Size = UDim2.new(0.33, 0, 0, 2)
+    activeTabIndicator.Position = UDim2.new(0, 0, 1, -2)
+    activeTabIndicator.BackgroundColor3 = Color3.fromRGB(255, 165, 50)
+    activeTabIndicator.Parent = tabBar
 
-    -- Контент
-    local ContentFrame = Instance.new("Frame")
-    ContentFrame.Name = "ContentFrame"
-    ContentFrame.Size = UDim2.new(1, -20, 1, -70)
-    ContentFrame.Position = UDim2.new(0, 10, 0, 65)
-    ContentFrame.BackgroundTransparency = 1
-    ContentFrame.ClipsDescendants = true
-    ContentFrame.Parent = MainFrame
+    -- Content Frame
+    local contentFrame = Instance.new("Frame")
+    contentFrame.Name = "contentFrame"
+    contentFrame.Size = UDim2.new(1, -20, 1, -70)
+    contentFrame.Position = UDim2.new(0, 10, 0, 65)
+    contentFrame.BackgroundTransparency = 1
+    contentFrame.ClipsDescendants = true
+    contentFrame.Parent = mainFrame
 
-    local ScriptsFrame = Instance.new("ScrollingFrame")
-    ScriptsFrame.Name = "ScriptsFrame"
-    ScriptsFrame.Size = UDim2.new(1, 0, 1, 0)
-    ScriptsFrame.Position = UDim2.new(0, 0, 0, 0)
-    ScriptsFrame.BackgroundTransparency = 1
-    ScriptsFrame.ScrollBarThickness = 3
-    ScriptsFrame.ScrollBarImageColor3 = Color3.fromRGB(80, 80, 80)
-    ScriptsFrame.Visible = true
-    ScriptsFrame.Parent = ContentFrame
+    local scriptsFrame = Instance.new("ScrollingFrame")
+    scriptsFrame.Name = "scriptsFrame"
+    scriptsFrame.Size = UDim2.new(1, 0, 1, 0)
+    scriptsFrame.Position = UDim2.new(0, 0, 0, 0)
+    scriptsFrame.BackgroundTransparency = 1
+    scriptsFrame.ScrollBarThickness = 3
+    scriptsFrame.ScrollBarImageColor3 = Color3.fromRGB(80, 80, 80)
+    scriptsFrame.Visible = true
+    scriptsFrame.Parent = contentFrame
 
-    local ListLayout = Instance.new("UIListLayout")
-    ListLayout.Padding = UDim.new(0, 10)
-    ListLayout.Parent = ScriptsFrame
+    local listLayout = Instance.new("UIListLayout")
+    listLayout.Padding = UDim.new(0, 10)
+    listLayout.Parent = scriptsFrame
 
-    local GamesFrame = Instance.new("ScrollingFrame")
-    GamesFrame.Name = "GamesFrame"
-    GamesFrame.Size = UDim2.new(1, 0, 1, 0)
-    GamesFrame.Position = UDim2.new(0, 0, 0, 0)
-    GamesFrame.BackgroundTransparency = 1
-    GamesFrame.ScrollBarThickness = 3
-    GamesFrame.ScrollBarImageColor3 = Color3.fromRGB(80, 80, 80)
-    GamesFrame.Visible = false
-    GamesFrame.Parent = ContentFrame
+    local gamesFrame = Instance.new("ScrollingFrame")
+    gamesFrame.Name = "gamesFrame"
+    gamesFrame.Size = UDim2.new(1, 0, 1, 0)
+    gamesFrame.Position = UDim2.new(0, 0, 0, 0)
+    gamesFrame.BackgroundTransparency = 1
+    gamesFrame.ScrollBarThickness = 3
+    gamesFrame.ScrollBarImageColor3 = Color3.fromRGB(80, 80, 80)
+    gamesFrame.Visible = false
+    gamesFrame.Parent = contentFrame
 
-    local TrollFrame = Instance.new("ScrollingFrame")
-    TrollFrame.Name = "TrollFrame"
-    TrollFrame.Size = UDim2.new(1, 0, 1, 0)
-    TrollFrame.Position = UDim2.new(0, 0, 0, 0)
-    TrollFrame.BackgroundTransparency = 1
-    TrollFrame.ScrollBarThickness = 3
-    TrollFrame.ScrollBarImageColor3 = Color3.fromRGB(80, 80, 80)
-    TrollFrame.Visible = false
-    TrollFrame.Parent = ContentFrame
+    local trollFrame = Instance.new("ScrollingFrame")
+    trollFrame.Name = "trollFrame"
+    trollFrame.Size = UDim2.new(1, 0, 1, 0)
+    trollFrame.Position = UDim2.new(0, 0, 0, 0)
+    trollFrame.BackgroundTransparency = 1
+    trollFrame.ScrollBarThickness = 3
+    trollFrame.ScrollBarImageColor3 = Color3.fromRGB(80, 80, 80)
+    trollFrame.Visible = false
+    trollFrame.Parent = contentFrame
 
     return {
-        screenGui = ScreenGui,
-        tinyImageGui = TinyImageGui,
-        imageFrame = ImageFrame,
-        image = ImageLabel,
-        mainFrame = MainFrame,
-        closeButton = CloseButton,
-        minimizeButton = MinimizeButton,
-        tabBar = TabBar,
-        scriptsTab = ScriptsTab,
-        gamesTab = GamesTab,
-        trollTab = TrollTab,
-        activeTabIndicator = ActiveTabIndicator,
-        scriptsFrame = ScriptsFrame,
-        gamesFrame = GamesFrame,
-        trollFrame = TrollFrame,
-        contentFrame = ContentFrame,
+        screenGui = screenGui,
+        tinyImageGui = tinyImageGui,
+        imageFrame = imageFrame,
+        image = imageLabel,
+        mainFrame = mainFrame,
+        closeButton = closeButton,
+        minimizeButton = minimizeButton,
+        tabBar = tabBar,
+        scriptsTab = scriptsTab,
+        gamesTab = gamesTab,
+        trollTab = trollTab,
+        activeTabIndicator = activeTabIndicator,
+        scriptsFrame = scriptsFrame,
+        gamesFrame = gamesFrame,
+        trollFrame = trollFrame,
+        contentFrame = contentFrame,
     }
 end
 
@@ -286,9 +289,15 @@ local function connectTabs(ui)
         end
     end
 
-    ui.scriptsTab.MouseButton1Click:Connect(function() switchTab("scripts") end)
-    ui.gamesTab.MouseButton1Click:Connect(function() switchTab("games") end)
-    ui.trollTab.MouseButton1Click:Connect(function() switchTab("troll") end)
+    ui.scriptsTab.MouseButton1Click:Connect(function()
+        switchTab("scripts")
+    end)
+    ui.gamesTab.MouseButton1Click:Connect(function()
+        switchTab("games")
+    end)
+    ui.trollTab.MouseButton1Click:Connect(function()
+        switchTab("troll")
+    end)
 
     switchTab("scripts")
 end
@@ -296,7 +305,7 @@ end
 local function main()
     local ui = createGui()
 
-    -- Подключаем скрипты, передавая необходимые фреймы
+    -- Подключаем модуль скриптов (укажите правильный путь)
     local scriptsModule = require(script.Modules.scripts)
     scriptsModule.load(ui.scriptsFrame, ui.screenGui)
 
@@ -304,64 +313,19 @@ local function main()
     ui.minimizeButton.MouseButton1Click:Connect(function()
         minimized = not minimized
         if minimized then
-            ui.mainFrame.Size = UDim2.new(0, 500, 0, 30)
-            ui.contentFrame.Visible = false
-            ui.tabBar.Visible = false
+            ui.screenGui.Enabled = false
+            ui.tinyImageGui.Enabled = true
             ui.minimizeButton.Text = "+"
         else
-            ui.mainFrame.Size = UDim2.new(0, 500, 0, 350)
-            ui.contentFrame.Visible = true
-            ui.tabBar.Visible = true
-            ui.minimizeButton.Text = "-"
+            ui.screenGui.Enabled = true
+            ui.tinyImageGui.Enabled = true
+            ui.minimizeButton.Text = "—"
         end
     end)
 
     ui.closeButton.MouseButton1Click:Connect(function()
-        local MessageFrame = Instance.new("Frame")
-        MessageFrame.Size = UDim2.new(0, 250, 0, 120)
-        MessageFrame.Position = UDim2.new(0.5, -125, 0.5, -60)
-        MessageFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
-        MessageFrame.Parent = ui.screenGui
-
-        local MessageLabel = Instance.new("TextLabel")
-        MessageLabel.Size = UDim2.new(1, -20, 0, 60)
-        MessageLabel.Position = UDim2.new(0, 10, 0, 10)
-        MessageLabel.BackgroundTransparency = 1
-        MessageLabel.Text = "Закрыть Vanegood Hub?"
-        MessageLabel.TextColor3 = Color3.new(1, 1, 1)
-        MessageLabel.Font = Enum.Font.GothamBold
-        MessageLabel.TextSize = 14
-        MessageLabel.TextWrapped = true
-        MessageLabel.Parent = MessageFrame
-
-        local YesButton = Instance.new("TextButton")
-        YesButton.Size = UDim2.new(0, 100, 0, 30)
-        YesButton.Position = UDim2.new(0.5, -105, 1, -40)
-        YesButton.BackgroundColor3 = Color3.fromRGB(255, 165, 50)
-        YesButton.Text = "Да"
-        YesButton.TextColor3 = Color3.new(1, 1, 1)
-        YesButton.Font = Enum.Font.GothamBold
-        YesButton.TextSize = 14
-        YesButton.Parent = MessageFrame
-
-        local NoButton = Instance.new("TextButton")
-        NoButton.Size = UDim2.new(0, 100, 0, 30)
-        NoButton.Position = UDim2.new(0.5, 5, 1, -40)
-        NoButton.BackgroundColor3 = Color3.fromRGB(80, 80, 90)
-        NoButton.Text = "Нет"
-        NoButton.TextColor3 = Color3.new(1, 1, 1)
-        NoButton.Font = Enum.Font.GothamBold
-        NoButton.TextSize = 14
-        NoButton.Parent = MessageFrame
-
-        YesButton.MouseButton1Click:Connect(function()
-            ui.screenGui:Destroy()
-            ui.tinyImageGui:Destroy()
-        end)
-
-        NoButton.MouseButton1Click:Connect(function()
-            MessageFrame:Destroy()
-        end)
+        ui.screenGui:Destroy()
+        ui.tinyImageGui:Destroy()
     end)
 
     local hubVisible = true
@@ -384,4 +348,3 @@ end
 main()
 
 return VanegoodHub
-
